@@ -1,0 +1,9 @@
+langgraph
+langchain
+langchain-ollama
+singlestoredb
+langchain-singlestore
+requests
+langchain-community
+duckduckgo-search
+langchain-tavily
