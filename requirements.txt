@@ -1,9 +1,11 @@
 langgraph
 langchain
 langchain-ollama
-singlestoredb
-langchain-singlestore
-requests
 langchain-community
+langchain-chroma
+chromadb
+streamlit
+requests
 duckduckgo-search
 langchain-tavily
+python-dotenv
