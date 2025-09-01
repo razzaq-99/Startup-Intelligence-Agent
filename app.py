@@ -19,17 +19,21 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main-header {
-        font-size: 3rem;
+        font-size: 3.5rem;
         font-weight: bold;
         text-align: center;
         color: #1f77b4;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
     .sub-header {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         color: #666;
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 3rem;
+        font-weight: 300;
+        line-height: 1.4;
     }
     .stButton > button {
         background-color: #1f77b4;
@@ -56,6 +60,21 @@ st.markdown("""
         margin: 0.5rem 0;
         border-left: 3px solid #1f77b4;
     }
+    /* Center the main content */
+    .main .block-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+    /* Center the form elements */
+    .stForm {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    /* Center the example ideas */
+    .stButton {
+        text-align: center;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -65,66 +84,26 @@ def main():
     st.markdown('<p class="sub-header">AI-powered market research and pitch generation for your startup idea</p>', unsafe_allow_html=True)
     
     
-    # Main content area
-    col1, col2 = st.columns([2, 1])
+    # Main content area - using full width for better centering
+    st.markdown('<h2 style="text-align: center;">Enter Your Startup Idea</h2>', unsafe_allow_html=True)
     
-    with col1:
-        st.header("Enter Your Startup Idea")
+    # Input form
+    with st.form("startup_form"):
+        startup_topic = st.text_area(
+            "Describe your startup idea or target market:",
+            placeholder="e.g., AI-powered fitness app for busy professionals, sustainable food delivery service, fintech solution for small businesses...",
+            height=100
+        )
         
-        # Input form
-        with st.form("startup_form"):
-            startup_topic = st.text_area(
-                "Describe your startup idea or target market:",
-                placeholder="e.g., AI-powered fitness app for busy professionals, sustainable food delivery service, fintech solution for small businesses...",
-                height=100
-            )
-            
-            col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 1])
-            with col_btn2:
-                submit_button = st.form_submit_button("🚀 Generate Intelligence Report", use_container_width=True)
-        
-        # Example ideas
-        st.subheader("💡 Example Ideas")
-        examples = [
-            "AI-powered personal finance assistant",
-            "Sustainable packaging solutions for e-commerce",
-            "Remote work productivity tools",
-            "Plant-based food delivery service",
-            "EdTech platform for skill development"
-        ]
-        
-        cols = st.columns(len(examples))
-        for i, example in enumerate(examples):
-            with cols[i]:
-                if st.button(example, key=f"example_{i}"):
-                    st.session_state.example_selected = example
-                    st.rerun()
-        
-        # Use example if selected
-        if 'example_selected' in st.session_state:
-            startup_topic = st.session_state.example_selected
-            del st.session_state.example_selected
+        col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 1])
+        with col_btn2:
+            submit_button = st.form_submit_button("🚀 Generate Intelligence Report", use_container_width=True)
     
-    # with col2:
-    #     st.header("📋 Process Steps")
-    #     st.markdown("""
-    #     <div class="step-container">
-    #     <strong>1. Research Phase</strong><br>
-    #     Gathering market data and trends
-    #     </div>
-    #     <div class="step-container">
-    #     <strong>2. Analysis Phase</strong><br>
-    #     Analyzing competitors and opportunities
-    #     </div>
-    #     <div class="step-container">
-    #     <strong>3. Summary Phase</strong><br>
-    #     Condensing insights and findings
-    #     </div>
-    #     <div class="step-container">
-    #     <strong>4. Pitch Generation</strong><br>
-    #     Creating investor-ready pitch outline
-    #     </div>
-    #     """, unsafe_allow_html=True)
+    
+    # Use example if selected
+    if 'example_selected' in st.session_state:
+        startup_topic = st.session_state.example_selected
+        del st.session_state.example_selected
     
     # Process the request
     if submit_button and startup_topic:
@@ -167,18 +146,6 @@ def main():
             
             # Display results
             st.header("📈 Intelligence Report")
-            
-            # Performance summary
-            with st.expander("⚡ Performance Summary", expanded=False):
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    st.metric("Processing Mode", performance_mode)
-                with col2:
-                    st.metric("Research Results", "2-3 sources" if "Quick" in performance_mode else "3-5 sources")
-                with col3:
-                    st.metric("Vector Storage", "Skipped" if "Quick" in performance_mode else "Enabled")
-                
-                st.info("💡 Tip: Use Quick Mode for faster results or Full Mode for comprehensive analysis")
             
             # Create tabs for different sections
             tab1, tab2, tab3 = st.tabs(["📝 Generated Pitch", "🔍 Research Insights", "💡 Recommendations"])
