@@ -7,6 +7,7 @@ from langchain.chains import LLMChain
 
 load_dotenv()
 
+# ---------------------- Custom Prompt Template ----------------------
 
 PITCH_PROMPT = """Create a concise startup pitch outline based on the research:
 
@@ -25,6 +26,8 @@ Summary: {summary}
 Keep each section concise and actionable."""
 
 
+# ---------------------- Pitch Generator Functions ----------------------
+
 def generate_pitch(research: str, summary: str) -> str:
     model_name = os.getenv("OLLAMA_MODEL", "gemma:2b")
     temp = float(os.getenv("PITCH_TEMPERATURE", "0"))
@@ -34,10 +37,8 @@ def generate_pitch(research: str, summary: str) -> str:
     chain = LLMChain(llm=llm, prompt=prompt)
 
     try:
-        # invoke avoids deprecated Chain.run in newer LangChain versions
         out = chain.invoke({"research": research, "summary": summary})
         
-        # Handle different output formats from LangChain
         if isinstance(out, dict) and 'text' in out:
             return out['text']
         elif isinstance(out, dict) and 'content' in out:
@@ -45,10 +46,8 @@ def generate_pitch(research: str, summary: str) -> str:
         elif isinstance(out, str):
             return out
         else:
-            # Convert any other format to string
             return str(out)
             
     except Exception as e:
         print(f"⚠️ Pitch generator LLM failed: {e}")
-        # Fallback pitch if LLM fails
         return f"Startup Pitch Outline:\n\n**Problem**: Address market need\n**Solution**: Innovative approach\n**Market**: Target customer segment\n**Business Model**: Revenue streams\n**Competition**: Key differentiators\n**Go-to-Market**: Launch strategy\n**Funding**: Investment ask and use of funds"

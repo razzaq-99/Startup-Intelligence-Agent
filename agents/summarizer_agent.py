@@ -8,6 +8,7 @@ from langchain.schema import Document
 
 load_dotenv()
 
+# ---------------------- Custom Summary Prompt Template ----------------------
 
 SUMMARY_PROMPT = """Analyze the startup research and provide:
 
@@ -21,11 +22,12 @@ Research: {documents}
 Focus on actionable insights only."""
 
 
+# ---------------------- Document Summarizer Function----------------------
+
 def summarize_documents(docs: list[Document] | list[str]) -> str:
     if not docs:
         return "No documents provided to summarize."
 
-    # Convert Document objects to text if needed
     if hasattr(docs[0], "page_content"):
         texts = "\n\n---\n\n".join([d.page_content for d in docs])
     else:
@@ -41,7 +43,6 @@ def summarize_documents(docs: list[Document] | list[str]) -> str:
     try:
         out = chain.invoke({"documents": texts})
         
-        # Handle different output formats from LangChain
         if isinstance(out, dict) and 'text' in out:
             return out['text']
         elif isinstance(out, dict) and 'content' in out:
@@ -49,10 +50,8 @@ def summarize_documents(docs: list[Document] | list[str]) -> str:
         elif isinstance(out, str):
             return out
         else:
-            # Convert any other format to string
             return str(out)
             
     except Exception as e:
         print(f"⚠️ Summarizer LLM failed: {e}")
-        # Fallback summary if LLM fails
         return f"Research analysis completed. Key focus areas identified for market entry and competitive positioning."

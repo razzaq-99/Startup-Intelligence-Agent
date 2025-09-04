@@ -2,9 +2,11 @@ from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings
 import os
 
+# ---------------------- ChromaDB Vector Store Functions ----------------------
+
 def get_vectorstore():
     """Initialize ChromaDB vector store with Ollama embeddings"""
-    embeddings = OllamaEmbeddings(model="gemma:2b")
+    embeddings = OllamaEmbeddings(model="nomic-embed-text")
     
     persist_directory = "./chroma_db"
     

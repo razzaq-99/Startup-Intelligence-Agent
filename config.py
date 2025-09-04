@@ -7,30 +7,30 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Performance Configuration
+# ---------------------- Performance Configuration for Each Step ----------------------
 PERFORMANCE_CONFIG = {
-    # Research settings
+    # ---------------------- Research settings ----------------------
     "MAX_RESEARCH_RESULTS": int(os.getenv("MAX_RESEARCH_RESULTS", "3")),
     "RESEARCH_TIMEOUT": int(os.getenv("RESEARCH_TIMEOUT", "30")),
     
-    # LLM settings
+    # ---------------------- LLM settings ----------------------
     "OLLAMA_MODEL": os.getenv("OLLAMA_MODEL", "gemma:2b"),
     "OLLAMA_TEMPERATURE": float(os.getenv("OLLAMA_TEMPERATURE", "0.1")),
     "OLLAMA_EMBED_MODEL": os.getenv("OLLAMA_EMBED_MODEL", "nomic-embed-text"),
     
-    # Caching settings
+    # ---------------------- Caching settings ----------------------
     "ENABLE_CACHING": os.getenv("ENABLE_CACHING", "true").lower() == "true",
     "CACHE_SIZE_LIMIT": int(os.getenv("CACHE_SIZE_LIMIT", "100")),
     
-    # Vector storage settings
+    # ---------------------- Vector storage settings ----------------------
     "VECTOR_STORAGE_ENABLED": os.getenv("VECTOR_STORAGE_ENABLED", "true").lower() == "true",
     "VECTOR_DIR": os.getenv("VECTOR_DIR", "./chroma_db"),
     
-    # API settings
+    # ---------------------- API settings ----------------------
     "TAVILY_API_KEY": os.getenv("TAVILY_API_KEY"),
     "TAVILY_SEARCH_DEPTH": os.getenv("TAVILY_SEARCH_DEPTH", "basic"),
     
-    # Performance flags
+    # ---------------------- Performance flags ----------------------
     "ENABLE_PARALLEL_PROCESSING": os.getenv("ENABLE_PARALLEL_PROCESSING", "true").lower() == "true",
     "SKIP_VECTOR_STORAGE": os.getenv("SKIP_VECTOR_STORAGE", "false").lower() == "true",
     "USE_QUICK_MODE": os.getenv("USE_QUICK_MODE", "false").lower() == "true"
@@ -43,6 +43,8 @@ QUICK_MODE_CONFIG = {
     "SKIP_VECTOR_STORAGE": True,
     "ENABLE_CACHING": True
 }
+
+# ---------------------- Configuration Management Functions ----------------------
 
 def get_config():
     """Get the current configuration, applying quick mode if enabled"""
