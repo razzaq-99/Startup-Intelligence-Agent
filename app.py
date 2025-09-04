@@ -129,7 +129,7 @@ def main():
     
     
     if st.session_state.get("new_chat_clicked", False):
-        st.markdown('<h2 style="text-align: center;">✨ New Chat - Enter Your Startup Idea</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 style="text-align: center;">Enter Your Startup Idea</h2>', unsafe_allow_html=True)
     else:
         st.markdown('<h2 style="text-align: center;">Enter Your Startup Idea</h2>', unsafe_allow_html=True)
     
@@ -148,14 +148,14 @@ def main():
         startup_topic = st.text_area(
             "Describe your startup idea or target market:",
             value=prefill,
-            placeholder="e.g., AI-powered fitness app for busy professionals, sustainable food delivery service, fintech solution for small businesses...",
+            placeholder="e.g: Fintech solution for small businesses...",
             height=100,
             key=f"startup_topic_{st.session_state.get('selected_session_id', 'new')}"
         )
         
         col_btn1, col_btn2, col_btn3 = st.columns([1, 1, 1])
         with col_btn2:
-            submit_button = st.form_submit_button("🚀 Generate Intelligence Report", use_container_width=True)
+            submit_button = st.form_submit_button("🚀 Generate ", use_container_width=True)
     
     
     if 'example_selected' in st.session_state:
